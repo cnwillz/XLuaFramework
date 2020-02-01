@@ -15,12 +15,14 @@ function Client:send_request(name, args, callback)
     for k, v in pairs(args) do
         so:Set(k, v)
     end
-    self.sts:SendRequest(name, so, function(sts, msg)
-        if(callback ~= nil)
-        then
+    if(callback ~= nil)
+    then
+        self.sts:SendRequest(name, so, function(sts, msg)
             callback(msg)
-        end
-    end)
+        end)
+    else
+        self.sts:SendRequest(name, so, nil)
+    end
 end
 
 function Client:send_response(name, args, session)
