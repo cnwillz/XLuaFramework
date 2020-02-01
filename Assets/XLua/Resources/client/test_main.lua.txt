@@ -1,0 +1,38 @@
+local socket = require("client.socket")
+local proto = require("client.test_proto")
+local util = require 'xlua.util'
+local cs_coroutine = (require 'cs_coroutine')
+
+
+local client = nil
+
+local function on_heartbeat()
+    print("receive heartbeat")
+end
+
+local function on_handshake(sts, msg)
+    print(msg.response:Get("msg").val)
+end
+
+function start()
+    print("lua start...")
+    cs_coroutine.start(main)
+end
+
+function main()
+    client = socket.new(proto.s2c, proto.c2s)
+    client:on_connect_callback(on_connect)
+    client:connect("127.0.0.1", 8888)
+    client:add_handler("heartbeat", on_heartbeat)
+
+    while true do
+        client:dispatch()
+        coroutine.yield(CS.UnityEngine.WaitForSeconds(0.1))
+    end
+end
+
+function on_connect(sts)
+    --print("connected")
+    client:send_request("handshake", nil, on_handshake)
+    client:send_request("set", { what = "hello", value = "world" })
+end

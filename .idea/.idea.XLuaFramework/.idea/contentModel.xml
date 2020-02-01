@@ -107,10 +107,8 @@
             <e p="DelegatesGensBridge.cs" t="Include" />
             <e p="EnumWrap.cs" t="Include" />
             <e p="link.xml" t="Include" />
+            <e p="NetSprotoTcpSocketWrap.cs" t="Include" />
             <e p="PackUnpack.cs" t="Include" />
-            <e p="Resources" t="Include">
-              <e p="hotfix_id_map.lua.txt" t="Include" />
-            </e>
             <e p="SystemCollectionsGenericList1SystemInt32Wrap.cs" t="Include" />
             <e p="SystemCollectionsIEnumeratorBridge.cs" t="Include" />
             <e p="SystemObjectWrap.cs" t="Include" />
@@ -163,6 +161,11 @@
             <e p="XLuaTestPeddingWrap.cs" t="Include" />
           </e>
           <e p="Resources" t="Include">
+            <e p="Client" t="Include">
+              <e p="socket.lua.txt" t="Include" />
+              <e p="test_main.lua.txt" t="Include" />
+              <e p="test_proto.lua.txt" t="Include" />
+            </e>
             <e p="perf" t="Include">
               <e p="memory.lua.txt" t="Include" />
               <e p="profiler.lua.txt" t="Include" />

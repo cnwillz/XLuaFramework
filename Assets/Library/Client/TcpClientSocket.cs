@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
+using XLua;
 
 namespace Net {
+	[LuaCallCSharp]
 	public class TcpClientSocket {
 		private class Package {
 			public byte[] Data;

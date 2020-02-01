@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Sproto;
+using XLua;
 
 namespace Net {
+	[LuaCallCSharp]
 	public class SprotoTcpSocket {
 		public delegate void OnConnectCallback(SprotoTcpSocket socket);
 		public delegate void OnCloseCallback(SprotoTcpSocket socket);
@@ -36,9 +38,6 @@ namespace Net {
 		//Connect,Disconnect,Dispatch use member TcpSocket todo?
 
 		public void SendRequest(string proto,SprotoObject request=null,ProtoDispatcher.MessageHandler handler=null) {
-//			string msg = String.Format("[{0}] op=SendRequest,proto={1},tag={2},ud={3},session={4},type={5},request={6},response={7}",
-//				this.TcpSocket.Name,proto,0,0,0,request.type,0,0);
-//			this._Log(msg);
 			Int64 sessionId = 0;
 			if (handler != null) {
 				this._sessionId = this._sessionId + 1;
@@ -46,6 +45,10 @@ namespace Net {
 				_sessions.Add(sessionId,handler);
 			}
 			Int64 messageId = gen_message_id();
+			
+			string msg = String.Format("[{0}] op=SendRequest,proto={1},req={2},cb={3},session={4},type={5},request={6},response={7}",
+				this.TcpSocket.Name,proto,request,handler,sessionId,request.type,0,0);
+			this._Log(msg);
 			RpcPackage package = Proto.PackRequest(proto,request,sessionId,messageId);
 			TcpSocket.Send(package.data,package.size);
 		}

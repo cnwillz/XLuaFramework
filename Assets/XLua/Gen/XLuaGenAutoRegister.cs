@@ -160,6 +160,9 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(XLuaTest.FooExtension), XLuaTestFooExtensionWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(Net.SprotoTcpSocket), NetSprotoTcpSocketWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(Tutorial.DerivedClass.TestEnumInner), TutorialDerivedClassTestEnumInnerWrap.__Register);
         
         

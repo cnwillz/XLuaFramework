@@ -1,0 +1,60 @@
+Client = {
+}
+
+function Client:connect(host, port)
+    self.sts.TcpSocket:Connect(host, port)
+end
+
+function Client:disconnect()
+    self.sts.TcpSocket:Disconnect()
+end
+
+function Client:send_request(name, args, callback)
+    args = args or {}
+    so = self.sts.Proto.C2S:NewSprotoObject(name..'.request')
+    for k, v in pairs(args) do
+        so:Set(k, v)
+    end
+    self.sts:SendRequest(name, so, callback)
+end
+
+function Client:send_response(name, args, session)
+    
+end
+
+function Client:dispatch()
+    self.sts.TcpSocket:Dispatch()
+end
+
+function Client:add_handler(name, handler)
+    self.sts.Dispatcher:AddHandler(name, handler)
+end
+
+function Client:on_connect_callback(cb)
+    self.sts:OnConnect('+', cb)
+end
+
+function Client:new(s2c, c2s)
+    o = o or {}
+    setmetatable(o, self)
+    self.__index = self
+    mgrS2C = CS.Sproto.SprotoParser.Parse(s2c)
+    mgrC2S = CS.Sproto.SprotoParser.Parse(c2s)
+    self.sts = CS.Net.SprotoTcpSocket(mgrS2C, mgrC2S)
+    self.sts.Log = print
+    return o
+end
+
+local function new(s2c, c2s)
+    print("lua socket...")
+    return Client:new(s2c, c2s)
+end
+
+local function usleep(mills)
+    CS.System.Threading.Thread.Sleep(mills)
+end
+
+return {
+    new = new,
+    usleep = usleep,
+}
