@@ -309,14 +309,14 @@ namespace Sproto {
 				ignore(lexer,"space");
 			}
 
-			string nameReq = $"{protocol.name}.request";
+			string nameReq = string.Format("{0}.request", protocol.name);
 			if (sprotomgr.GetType(nameReq) == null) {
 				SprotoType typedef = new SprotoType {name = nameReq};
 				sprotomgr.AddType(typedef);
 				protocol.request = nameReq;
 			}
 			
-			string nameRes = $"{protocol.name}.response";
+			string nameRes = string.Format("{0}.response", protocol.name);
 			if (sprotomgr.GetType(nameRes) == null) {
 				SprotoType typedef = new SprotoType {name = nameRes};
 				sprotomgr.AddType(typedef);
