@@ -15,7 +15,12 @@ function Client:send_request(name, args, callback)
     for k, v in pairs(args) do
         so:Set(k, v)
     end
-    self.sts:SendRequest(name, so, callback)
+    self.sts:SendRequest(name, so, function(sts, msg)
+        if(callback ~= nil)
+        then
+            callback(msg)
+        end
+    end)
 end
 
 function Client:send_response(name, args, session)
@@ -31,7 +36,9 @@ function Client:add_handler(name, handler)
 end
 
 function Client:on_connect_callback(cb)
-    self.sts:OnConnect('+', cb)
+    self.sts:OnConnect('+', function(sts)
+        cb()
+    end)
 end
 
 function Client:new(s2c, c2s)

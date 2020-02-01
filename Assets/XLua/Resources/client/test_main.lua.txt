@@ -10,7 +10,7 @@ local function on_heartbeat()
     print("receive heartbeat")
 end
 
-local function on_handshake(sts, msg)
+local function on_handshake(msg)
     print(msg.response:Get("msg").val)
 end
 
@@ -31,7 +31,7 @@ function main()
     end
 end
 
-function on_connect(sts)
+function on_connect()
     --print("connected")
     client:send_request("handshake", nil, on_handshake)
     client:send_request("set", { what = "hello", value = "world" })
